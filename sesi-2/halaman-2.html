@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementasi Responsive Flexbox & Order</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        header h1 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .explanation {
+            background-color: #eef9ff;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        /* 
+           ==============================================
+           FLEXBOX CONTAINER & RESPONSIVE LAYOUT
+           ==============================================
+        */
+        .layout-wrapper {
+            display: flex;
+            flex-direction: column; /* Default HP: Elemen ditumpuk ke bawah */
+            gap: 20px;
+        }
+
+        /* Styling Kartu / Elemen */
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            color: #fff;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .order-tag {
+            margin-top: 15px;
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            display: inline-block;
+            color: #333;
+        }
+
+        /* Warna tema tiap kartu */
+        .card-main {
+            border-top: 5px solid #3498db;
+        }
+        .card-main .badge { background-color: #3498db; }
+
+        .card-promo {
+            border-top: 5px solid #e74c3c;
+            background: #fff8f8;
+        }
+        .card-promo .badge { background-color: #e74c3c; }
+
+        .card-sidebar {
+            border-top: 5px solid #2ecc71;
+        }
+        .card-sidebar .badge { background-color: #2ecc71; }
+
+        /* 
+           ==============================================
+           ORDER PROPERTY & MEDIA QUERIES
+           ==============================================
+        */
+
+        /* UTAMA (Mobile Mode): 
+           Promo ditampilkan PALING ATAS (order: 1) agar langsung terlihat oleh user HP.
+           Konten utama kedua (order: 2).
+           Sidebar paling bawah (order: 3).
+        */
+        .card-promo { order: 1; }
+        .card-main { order: 2; }
+        .card-sidebar { order: 3; }
+
+        .promo-order-text::after { content: "1 (Paling Atas)"; }
+        .main-order-text::after { content: "2 (Tengah)"; }
+        .sidebar-order-text::after { content: "3 (Paling Bawah)"; }
+
+        /* TAMPILAN DESKTOP (Lebar layar min-width: 768px) */
+        @media (min-width: 768px) {
+            .layout-wrapper {
+                flex-direction: row; /* Berubah jadi menyamping */
+                align-items: flex-start;
+            }
+
+            /* Pembagian Lebar Kolom */
+            .card-sidebar { flex: 1; }
+            .card-main { flex: 2; }
+            .card-promo { flex: 1; }
+
+            /* Rearranging Urutan di Desktop:
+               Sidebar Kiri (order: 1)
+               Konten Utama Tengah (order: 2)
+               Promo Kanan (order: 3)
+            */
+            .card-sidebar { order: 1; }
+            .card-main { order: 2; }
+            .card-promo { order: 3; }
+
+            .sidebar-order-text::after { content: "1 (Kiri)"; }
+            .main-order-text::after { content: "2 (Tengah)"; }
+            .promo-order-text::after { content: "3 (Kanan)"; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Implementasi Responsive Flexbox & Properti Order</h1>
+            <p>Ubah ukuran lebar browser Anda (Resize) untuk melihat urutan posisi kartu berubah secara teratur!</p>
+        </header>
+
+        <div class="explanation">
+            <strong>Cara Kerja Properti <code>order</code>:</strong>
+            <br>
+            • <strong>Tampilan Mobile (&lt; 768px):</strong> Promo berada di posisi paling atas (<code>order: 1</code>) agar menarik perhatian pengunjung.<br>
+            • <strong>Tampilan Desktop (&ge; 768px):</strong> Sidebar berpindah ke kiri (<code>order: 1</code>), Konten di tengah (<code>order: 2</code>), dan Promo di kanan (<code>order: 3</code>).
+        </div>
+
+        <main class="layout-wrapper">
+            
+            <!-- Elemen 1 dalam HTML -->
+            <article class="card card-main">
+                <span class="badge">Konten Utama</span>
+                <h2>Artikel Blog Utama</h2>
+                <p>Ini adalah area artikel utama. Pada tampilan mobile, artikel ini berada di posisi kedua setelah promo banner. Di desktop, artikel ini berada di posisi tengah dengan porsi lebar terbesar.</p>
+                <div class="order-tag">Nilai CSS order saat ini: <span class="main-order-text"></span></div>
+            </article>
+
+            <!-- Elemen 2 dalam HTML -->
+            <aside class="card card-promo">
+                <span class="badge">Pengumuman / Promo</span>
+                <h2>Diskon Spesial 50%!</h2>
+                <p>Dapatkan diskon khusus pengguna baru. Di mobile, elemen ini dipaksa naik ke urutan paling atas menggunakan <code>order: 1</code>.</p>
+                <div class="order-tag">Nilai CSS order saat ini: <span class="promo-order-text"></span></div>
+            </aside>
+
+            <!-- Elemen 3 dalam HTML -->
+            <aside class="card card-sidebar">
+                <span class="badge">Navigasi Sidebar</span>
+                <h2>Menu Navigasi</h2>
+                <p>Daftar kategori dan tautan penting. Di desktop, elemen ini berada di sebelah kiri (<code>order: 1</code>) meskipun di HTML ditulis di urutan terakhir.</p>
+                <div class="order-tag">Nilai CSS order saat me-load: <span class="sidebar-order-text"></span></div>
+            </aside>
+
+        </main>
+    </div>
+
+</body>
+</html>

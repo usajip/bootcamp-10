@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Biodata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1 {
+            text-align: left;
+        }
+        p {
+            text-align: justify;
+        }
+        .text-center{
+            text-align: center;
+        }
+        #name {
+            display: block;
+            margin: 10px auto;
+        }
+        input[type="email"] {
+            display: block;
+            margin: 10px auto;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: blue;text-align: center;">Selamat Datang di Website Saya</h1>
+    <h1>Website Pribadi Saya</h1>
+    <p class="text-center">Ini adalah website pribadi saya yang berisi informasi tentang diri saya, portofolio, dan kontak.</p>
+    <div style="margin: 20px 0;padding: 10px;background-color: #f0f0f0;border: 1px solid #ccc;">
+        <p class="text-center">Terima kasih telah mengunjungi website saya.</p>
+    </div>
+    <input id="name" type="text" placeholder="Masukkan nama Anda">
+    <input id="email" type="email" placeholder="Masukkan email Anda">
+    <input id="message" type="text" placeholder="Masukkan pesan Anda">
+    <button id="submit" type="submit">Kirim</button>
+
+    <div class="marquee-container">
+  <div class="marquee-text">Teks berjalan menggunakan CSS.</div>
+</div>
+
+<style>
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-text {
+  display: inline-block;
+  animation: scroll 10s linear infinite;
+}
+@keyframes scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+</body>
+</html>

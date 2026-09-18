@@ -1,0 +1,158 @@
+/* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 10px;
+        }
+
+        /* Border pembatas untuk mensimulasikan border="1" pada tabel original */
+        .bordered-box {
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            padding: 20px;
+        }
+
+        /* ----------------------------------
+           Section 1: Navigation Menu (Flexbox)
+        ---------------------------------- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 10px 20px;
+        }
+
+        .navbar .brand {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+
+        /* ----------------------------------
+           Section 2: Welcome Header (Flexbox / Grid)
+        ---------------------------------- */
+        .header-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-content {
+            flex: 1 1 300px;
+        }
+
+        .header-content h2 {
+            margin-bottom: 10px;
+        }
+
+        .header-content button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .header-image {
+            flex: 1 1 300px;
+            background-color: #E0E0E0;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .header-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ----------------------------------
+           Section 3: About Me (CSS Grid)
+        ---------------------------------- */
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .about-grid {
+            display: grid;
+            /* Grid 3 kolom pada layar besar, 1 kolom pada layar kecil */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .about-card {
+            border: 1px solid #ccc;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* ----------------------------------
+           Section 4: Portfolio (CSS Grid)
+        ---------------------------------- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .portfolio-placeholder {
+            background-color: #E0E0E0;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-placeholder p {
+            font-size: 18px;
+            color: #999999;
+        }
+
+        .portfolio-card h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        /* ----------------------------------
+           Responsive Media Query (HP / Mobile)
+        ---------------------------------- */
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .navbar .nav-links {
+                justify-content: center;
+                gap: 15px;
+            }
+        }
