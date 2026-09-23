@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Form</title>
+    </head>
+    <body>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <input type="submit" value="Submit">
+        </form>
+        <script>
+            // form validation
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function(event) {
+                const name = document.getElementById("name").value;
+                console.log("Name:", name);
+                const email = document.getElementById("email").value;
+                console.log("Email:", email);
+                const password = document.getElementById("password").value;
+                console.log("Password:", password);
+                
+                event.preventDefault();
+                
+                if(name === "" || email === "" || password === "") {
+                    alert("Please fill in all fields.");
+                    event.preventDefault();
+                }
+
+                if(password.length < 6) {
+                    alert("Password must be at least 6 characters long.");
+                    event.preventDefault();
+                }
+            });
+        </script>
+    </body>
+</html>

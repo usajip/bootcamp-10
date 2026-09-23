@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nusantara Store - E-Commerce Modern</title>
+    <!-- Bootstrap CSS 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="tugas.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm py-2">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center me-4" href="#">
+                <i class="bi bi-bag-heart-fill text-primary fs-3 me-2"></i>
+                <span>Nusantara<span class="text-primary">Store</span></span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Search bar in Header -->
+                <div class="d-flex mx-auto my-2 my-lg-0 w-100 max-w-lg me-lg-4" style="max-width: 500px;">
+                    <div class="input-group">
+                        <input type="text" id="navbarSearch" class="form-control border-end-0" placeholder="Cari produk impianmu...">
+                        <button class="btn btn-primary" type="button" id="btnNavbarSearch">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item me-2">
+                        <button class="btn btn-outline-light position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                            <i class="bi bi-cart3 fs-5"></i>
+                            <span class="visually-hidden">Keranjang</span>
+                            <span id="cartCount" class="position-absolute badge rounded-pill bg-danger cart-badge">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="container mt-4">
+        <div class="hero-banner d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill fw-bold">PROMO HARBOLNAS</span>
+                <h1 class="fw-bold mb-2">Diskon Spesial Hingga 50%</h1>
+                <p class="mb-3 text-white-50">Dapatkan koleksi gadget, fashion, dan peralatan rumah tangga terbaik dengan promo terbatas.</p>
+                <a href="#productSection" class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill">Belanja Sekarang</a>
+            </div>
+            <div class="d-none d-md-block">
+                <i class="bi bi-shop display-1 opacity-75"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container my-5" id="productSection">
+        <div class="row g-4">
+            
+            <!-- Sidebar Filter -->
+            <div class="col-lg-3">
+                <!-- Mobile Filter Toggle Button -->
+                <button class="btn btn-outline-primary w-100 d-lg-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                    <i class="bi bi-funnel me-2"></i> Tampilkan Filter
+                </button>
+
+                <div class="collapse d-lg-block filter-sidebar" id="filterCollapse">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold m-0"><i class="bi bi-sliders me-2 text-primary"></i>Filter</h5>
+                        <button class="btn btn-sm btn-link text-decoration-none p-0 text-muted" id="btnResetFilter">Reset All</button>
+                    </div>
+
+                    <!-- Search Input Filter -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary small">Cari Nama / Deskripsi</label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                            <input type="text" id="filterSearch" class="form-control" placeholder="Kata kunci...">
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary small">Kategori</label>
+                        <div class="d-flex flex-column gap-2" id="categoryContainer">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary small">Maksimum Harga</label>
+                        <input type="range" class="form-range" id="priceRange" min="50000" max="15000000" step="100000" value="15000000">
+                        <div class="d-flex justify-content-between text-muted small mt-1">
+                            <span>Rp 50rb</span>
+                            <span id="priceRangeValue" class="fw-bold text-primary">Rp 15.000.000</span>
+                        </div>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary small">Rating Minimum</label>
+                        <select class="form-select form-select-sm" id="ratingFilter">
+                            <option value="0">Semua Rating</option>
+                            <option value="4.5">⭐ 4.5 Ke atas</option>
+                            <option value="4.0">⭐ 4.0 Ke atas</option>
+                            <option value="3.5">⭐ 3.5 Ke atas</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid Area -->
+            <div class="col-lg-9">
+                <!-- Sorting Bar -->
+                <div class="bg-white p-3 rounded-3 shadow-sm mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <div class="text-muted small">
+                        Menampilkan <span id="showingCount" class="fw-bold text-dark">0</span> dari <span id="totalCount" class="fw-bold text-dark">0</span> produk
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="sortBy" class="form-label mb-0 text-nowrap small text-muted">Urutkan:</label>
+                        <select id="sortBy" class="form-select form-select-sm" style="min-width: 190px;">
+                            <option value="default">Rekomendasi</option>
+                            <option value="price-asc">Harga: Terendah ke Tertinggi</option>
+                            <option value="price-desc">Harga: Tertinggi ke Terendah</option>
+                            <option value="name-asc">Nama: A - Z</option>
+                            <option value="name-desc">Nama: Z - A</option>
+                            <option value="rating-desc">Rating Tertinggi</option>
+                        </select>
+                        
+                        <!-- View Switcher -->
+                        <div class="btn-group btn-group-sm ms-2" role="group">
+                            <button type="button" class="btn btn-outline-secondary active" id="btnGridView" title="Tampilan Grid">
+                                <i class="bi bi-grid-3x3-gap-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" id="btnListView" title="Tampilan List">
+                                <i class="bi bi-list-task"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Container -->
+                <div class="row g-3" id="productGrid">
+                    <!-- Products will be injected by JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-5 d-none">
+                    <i class="bi bi-search display-1 text-muted opacity-50 mb-3 d-block"></i>
+                    <h5 class="fw-bold text-secondary">Produk Tidak Ditemukan</h5>
+                    <p class="text-muted small">Coba ubah kata kunci atau kata filter pencarian Anda.</p>
+                    <button class="btn btn-outline-primary btn-sm mt-2" onclick="resetFilters()">Reset Filter</button>
+                </div>
+
+                <!-- Pagination -->
+                <nav class="mt-5 d-flex justify-content-center" id="paginationNav">
+                    <ul class="pagination pagination-sm" id="pagination">
+                        <!-- Dynamic pagination buttons -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold"><i class="bi bi-cart3 me-2"></i>Keranjang Belanja</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <div id="cartItemsContainer" class="flex-grow-1 overflow-y-auto mb-3">
+                <!-- Cart Items Injection -->
+            </div>
+            
+            <div class="border-top pt-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Total Harga:</span>
+                    <span id="cartTotalPrice" class="fw-bold text-primary fs-5">Rp 0</span>
+                </div>
+                <button class="btn btn-primary w-100 py-2 fw-semibold" id="btnCheckout" onclick="handleCheckout()">
+                    Proses Pembayaran <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-4" id="modalDetailContent">
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+        <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                    <span id="toastMessage">Produk berhasil ditambahkan ke keranjang!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container text-center text-md-start">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <h6 class="fw-bold m-0"><i class="bi bi-bag-heart-fill text-primary me-2"></i>Nusantara Store</h6>
+                    <small class="text-white-50">Platform e-commerce terlengkap dengan harga bersahabat.</small>
+                </div>
+                <div class="col-md-6 text-md-end text-white-50 small">
+                    © 2026 Nusantara Store. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="tugas.js"></script>
+</body>
+</html>

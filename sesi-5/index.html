@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="main-heading">Hello, world!</h1>
+    
+    <script>
+        let fruits = ["apple", "banana", "cherry"];
+
+        fruits.pop();
+
+        fruits.push("date");
+
+        let multidimensionalArray = [
+            ["apple", "banana", "cherry"],
+            ["dog", "cat", "mouse"]
+        ];
+
+        text = "";
+        fruits.forEach(fruit => {
+            text += "<em>" + fruit + "</em><br>";
+        });
+
+        for(let item of fruits) {
+            text += "<strong>" + item + "</strong><br>";
+        }
+
+        const angka = [1, 2, 3, 4, 5];
+
+        // Mengalikan tiap elemen dengan 2
+        const angkaBaru = angka.map((num) => {
+            return num * 2;
+        });
+
+        document.getElementById("main-heading").innerHTML = angkaBaru;
+    </script>
+    <script src="scripts.js"></script>
+</body>
+</html>
