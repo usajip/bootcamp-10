@@ -1,0 +1,97 @@
+body{
+    font-family: 'Inter', sans-serif;
+    background-color: #F5F5F5;
+    font-size: 18px;
+    color: #404040;
+}
+
+.black-text{
+    color: #171717;
+}
+
+.gray-text{
+    color:#404040;
+}
+
+.p-16px{
+    padding: 16px;
+}
+
+.text-16px{
+    font-size: 16px;
+}
+
+.border-gray{
+    border: 1px solid #E5E5E5;
+}
+
+.radius-8px{
+    border-radius: 8px;
+}
+
+.font-bold{
+    font-weight: bold;
+}
+
+.font-semibold{
+    font-weight: 600;
+}
+
+.font-medium{
+    font-weight: 500;
+}
+
+.font-regular{
+    font-weight: 400;
+}
+
+.button{
+    padding: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 16px;
+}
+.button:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title{
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    color: #171717;
+    font-size: 16px;
+    padding: 4px 8px;
+}
+
+.sidebar-box{
+    padding: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    max-width: 270px;
+}
+
+.margin-b-24px{
+    margin-bottom: 24px;
+}
+
+.margin-b-16px{
+    margin-bottom: 16px;
+}
+
+/* use bootstrap css breakpoints for responsive design */
+@media (max-width: 768px) {
+    .sidebar-box{
+        max-width: 100%;
+    }
+
+    .sm_margin-b-0{
+        margin-bottom: 0!important;
+    }
+
+    .sm_margin-b-16px{
+        margin-bottom: 16px!important;
+    }
+}
