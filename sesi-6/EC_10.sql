@@ -178,3 +178,29 @@ WHERE product_id = 1;
 -- Menghapus produk yang stoknya sudah habis (0)
 DELETE FROM products 
 WHERE stock = 0;
+
+
+-- Create Data List for Products
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Smartphone Samsung Galaxy', 'Smartphone terbaru dengan kamera canggih', 12000000.00, 20);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Headphone Sony WH-1000XM4', 'Headphone nirkabel dengan peredam bising', 3500000.00, 15);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Tablet Apple iPad', 'Tablet dengan layar Retina dan performa tinggi', 9000000.00, 12);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Smartwatch Xiaomi Mi Band', 'Smartwatch dengan berbagai fitur kesehatan', 800000.00, 30);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Camera Canon EOS R5', 'Kamera mirrorless dengan resolusi tinggi', 45000000.00, 8);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Printer HP LaserJet', 'Printer laser untuk kebutuhan kantor', 2500000.00, 20);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('Monitor LG UltraWide', 'Monitor ultrawide untuk produktivitas', 5000000.00, 10);
+
+INSERT INTO products (name, description, price, stock) 
+VALUES ('External Hard Drive Seagate', 'Hard drive eksternal dengan kapasitas besar', 1200000.00, 25);
