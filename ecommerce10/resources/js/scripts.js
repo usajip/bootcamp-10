@@ -1,0 +1,1 @@
+console.log('This is a scripts.js file in resources/js folder.');

@@ -8,12 +8,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/home2', [App\Http\Controllers\HomeController::class, 'index2']);
+Route::get('/home-layout/{id}', [App\Http\Controllers\HomeController::class, 'indexLayoutComponent'])->name('home.layout');
 
 Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
 
-Route::get('cart', function () {
-    echo "Cart Page";
-});
+Route::get('cart', [App\Http\Controllers\CartController::class, 'index']);
 
 Route::get('checkout', function () {
     echo "Checkout Page";
