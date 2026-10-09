@@ -1,13 +1,15 @@
 <?php
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('products', function () {
-    echo "Products Page";
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+
+Route::get('/home2', [App\Http\Controllers\HomeController::class, 'index2']);
+
+Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
 
 Route::get('cart', function () {
     echo "Cart Page";
