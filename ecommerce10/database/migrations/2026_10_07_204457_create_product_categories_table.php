@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name'); // Name column for the product_categories table
+            $table->string('slug')->unique(); // Slug column for the product_categories table
             $table->timestamps();
         });
     }
