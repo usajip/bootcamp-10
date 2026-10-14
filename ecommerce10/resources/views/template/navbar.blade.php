@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link {{ request()->is('home-layout*') ? 'active' : '' }}" aria-current="page" href="{{ route('home.layout', ['id' => 1]) }}">Home</a>
+          <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ request()->is('products*') ? 'active' : '' }}" href="{{ url('/products') }}">Produk</a>
@@ -18,7 +18,7 @@
           <a class="nav-link {{ request()->is('cart*') ? 'active' : '' }}" href="{{ url('/cart') }}">Keranjang</a>
         </li>
       </ul>
-      <form class="d-flex site-navbar-search" action="{{ url('/products') }}" method="GET" role="search">
+      <form class="d-flex site-navbar-search" action="{{ url('/search') }}" method="GET" role="search">
         <input class="form-control me-2" type="search" name="search" placeholder="Cari produk..." aria-label="Cari produk" value="{{ request('search') }}">
         <button class="btn btn-light" type="submit">Cari</button>
       </form>

@@ -11,13 +11,13 @@
                         untuk pengalaman belanja yang menyenangkan.
                     </p>
 
-                    <form class="home-hero-search" action="{{ url('/products') }}" method="GET" role="search">
+                    <form class="home-hero-search" action="{{ url('/search') }}" method="GET" role="search">
                         <input type="search" name="search" class="form-control" placeholder="Cari produk favoritmu..." aria-label="Cari produk">
                         <button type="submit" class="btn btn-light">Cari</button>
                     </form>
 
                     <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="{{ url('/products') }}" class="btn btn-light btn-lg px-4">Belanja Sekarang</a>
+                        <a href="{{ url('/search') }}" class="btn btn-light btn-lg px-4">Belanja Sekarang</a>
                         <a href="#kategori" class="btn btn-outline-light btn-lg px-4">Jelajahi Kategori</a>
                     </div>
                 </div>
@@ -55,14 +55,13 @@
                     <h2 class="home-section-title">Kategori Pilihan</h2>
                     <p class="home-section-subtitle">Temukan produk berdasarkan kategori favoritmu.</p>
                 </div>
-                <a href="{{ url('/products') }}" class="btn btn-outline-primary">Lihat Semua Kategori</a>
+                <a href="{{ url('/search') }}" class="btn btn-outline-primary">Lihat Semua Kategori</a>
             </div>
 
             <div class="row g-4">
                 @foreach ($categories as $category)
                     <div class="col-6 col-md-4 col-lg-2">
-                        <a href="{{ url('/products?category=' . urlencode($category['name'])) }}" class="home-category h-100">
-                            <span class="home-category-icon">{{ $category['icon'] }}</span>
+                        <a href="{{ url('/search?category=' . urlencode($category['name'])) }}" class="home-category text-center h-100">
                             <span class="home-category-name">{{ $category['name'] }}</span>
                         </a>
                     </div>
@@ -79,7 +78,7 @@
                     <h2 class="home-section-title">Produk Terlaris</h2>
                     <p class="home-section-subtitle">Produk paling banyak dibeli pelanggan kami.</p>
                 </div>
-                <a href="{{ url('/products') }}" class="btn btn-outline-primary">Lihat Semua Produk</a>
+                <a href="{{ url('/search') }}" class="btn btn-outline-primary">Lihat Semua Produk</a>
             </div>
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
@@ -87,14 +86,17 @@
                     <div class="col">
                         <x-product-card
                             :image="asset('images/images.jpeg')"
-                            :name="$product['name']"
-                            :description="$product['description']"
-                            :price="$product['price']"
-                            :category="$product['category']"
-                            :link="url('/products')"
+                            :name="$product->name"
+                            :description="$product->description"
+                            :price="$product->price"
+                            :category="$product->product_category->name"
+                            :link="url('/search')"
                         />
                     </div>
                 @endforeach
+            </div>
+            <div class="mt-4">
+                {{ $products->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </section>
@@ -113,7 +115,7 @@
                         </p>
                     </div>
                     <div class="col-lg-4 text-lg-end">
-                        <a href="{{ url('/products') }}" class="btn btn-light btn-lg px-4">Klaim Promo</a>
+                        <a href="{{ url('/search') }}" class="btn btn-light btn-lg px-4">Klaim Promo</a>
                     </div>
                 </div>
             </div>

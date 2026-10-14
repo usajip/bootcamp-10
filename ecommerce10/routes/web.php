@@ -5,10 +5,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/home2', [App\Http\Controllers\HomeController::class, 'index2']);
-Route::get('/home-layout/{id}', [App\Http\Controllers\HomeController::class, 'indexLayoutComponent'])->name('home.layout');
+Route::get('/search', [App\Http\Controllers\HomeController::class, 'search']);
 
 Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
 
