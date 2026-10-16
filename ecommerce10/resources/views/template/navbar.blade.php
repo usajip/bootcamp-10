@@ -22,6 +22,28 @@
         <input class="form-control me-2" type="search" name="search" placeholder="Cari produk..." aria-label="Cari produk" value="{{ request('search') }}">
         <button class="btn btn-light" type="submit">Cari</button>
       </form>
+      @auth
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button class="nav-link btn btn-link" type="submit">Logout</button>
+            </form>
+          </li>
+        </ul>
+      @else
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">Register</a>
+          </li>
+        </ul>
+      @endauth
     </div>
   </div>
 </nav>
