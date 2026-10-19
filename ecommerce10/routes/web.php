@@ -10,13 +10,17 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/search', [App\Http\Controllers\HomeController::class, 'search']);
 
-Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
+// Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
 
 Route::get('cart', [App\Http\Controllers\CartController::class, 'index']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('dashboard')->middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::resource('products', App\Http\Controllers\ProductController::class);
+    Route::resource('product-categories', App\Http\Controllers\ProductCategoryController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
