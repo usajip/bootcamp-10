@@ -19,9 +19,7 @@ Route::get('/search', [HomeController::class, 'search']);
 Route::get('cart', [CartController::class, 'index']);
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', ProductController::class);
     Route::resource('product-categories', ProductCategoryController::class)
         ->except(['show', 'create', 'edit']);
