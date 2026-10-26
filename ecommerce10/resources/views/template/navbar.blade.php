@@ -17,6 +17,11 @@
         <li class="nav-item">
           <a class="nav-link {{ request()->is('cart*') ? 'active' : '' }}" href="{{ url('/cart') }}">Keranjang</a>
         </li>
+        @admin
+        <li class="nav-item">
+          <a class="nav-link {{ request()->is('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+        </li>
+        @endadmin
       </ul>
       <form class="d-flex site-navbar-search" action="{{ url('/search') }}" method="GET" role="search">
         <input class="form-control me-2" type="search" name="search" placeholder="Cari produk..." aria-label="Cari produk" value="{{ request('search') }}">
