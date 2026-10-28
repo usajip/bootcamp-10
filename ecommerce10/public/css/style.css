@@ -332,6 +332,105 @@ body {
     white-space: nowrap;
 }
 
+/* --- Product detail --- */
+.product-detail .breadcrumb-item a {
+    color: var(--brand-secondary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.product-detail-media {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(23, 15, 60, 0.08);
+}
+
+.product-detail-image {
+    display: block;
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: 18px;
+    background: #eef0f7;
+}
+
+.product-detail-title {
+    color: #1f2937;
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.product-detail-price {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--brand-secondary);
+    margin: 0.75rem 0;
+}
+
+.product-detail-description {
+    color: #4b5563;
+    line-height: 1.7;
+    margin-top: 1rem;
+}
+
+.product-detail .btn-outline-primary {
+    border-radius: 999px;
+    border-color: var(--brand-primary);
+    color: var(--brand-secondary);
+    font-weight: 600;
+}
+
+.product-detail .btn-outline-primary:hover,
+.product-detail .btn-outline-primary:focus {
+    background: var(--brand-gradient);
+    border-color: transparent;
+    color: #fff;
+}
+
+.product-detail-form {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+}
+
+.product-detail-qty {
+    width: 120px;
+    flex-shrink: 0;
+}
+
+.product-detail-perks,
+.product-detail-specs {
+    background: var(--surface);
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(23, 15, 60, 0.08);
+}
+
+.product-detail-perks {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.product-detail-perk {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.product-detail-perk strong {
+    display: block;
+    color: #1f2937;
+}
+
+.product-detail-perk-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
 /* --- Footer --- */
 footer {
     background: #1f2937;
@@ -356,5 +455,14 @@ footer p {
 
     .home-newsletter-form {
         flex-direction: column;
+    }
+
+    .product-detail-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .product-detail-qty {
+        width: 100%;
     }
 }

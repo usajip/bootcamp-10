@@ -268,3 +268,70 @@ it('requires authentication to update a product', function () {
 
     $this->put(route('products.update', $product), [])->assertRedirect(route('login'));
 });
+
+it('renders the product detail page with its related products', function () {
+    $category = ProductCategory::create(['name' => 'Books', 'slug' => 'books']);
+    $otherCategory = ProductCategory::create(['name' => 'Toys', 'slug' => 'toys']);
+
+    $product = Product::create([
+        'name' => 'Clean Code',
+        'description' => 'A handbook of agile software craftsmanship.',
+        'slug' => 'clean-code',
+        'price' => 150000,
+        'stock' => 10,
+        'image' => 'default.jpg',
+        'product_category_id' => $category->id,
+    ]);
+
+    Product::create([
+        'name' => 'Refactoring',
+        'description' => 'Improving the design of existing code.',
+        'slug' => 'refactoring',
+        'price' => 200000,
+        'stock' => 5,
+        'image' => 'default.jpg',
+        'product_category_id' => $category->id,
+    ]);
+
+    Product::create([
+        'name' => 'Lego Set',
+        'description' => 'A building block set.',
+        'slug' => 'lego-set',
+        'price' => 300000,
+        'stock' => 5,
+        'image' => 'default.jpg',
+        'product_category_id' => $otherCategory->id,
+    ]);
+
+    $this->get(route('products.show', $product->slug))
+        ->assertOk()
+        ->assertSee('Beli Clean Code')
+        ->assertSee('A handbook of agile software craftsmanship.')
+        ->assertSee('Rp 150.000')
+        ->assertSee('Stok tersedia: 10')
+        ->assertSee('Produk Terkait')
+        ->assertSee('Refactoring')
+        ->assertDontSee('Lego Set');
+});
+
+it('hides the purchase button when the product is out of stock', function () {
+    $category = ProductCategory::create(['name' => 'Books', 'slug' => 'books']);
+    $product = Product::create([
+        'name' => 'Clean Code',
+        'description' => 'A handbook.',
+        'slug' => 'clean-code',
+        'price' => 150000,
+        'stock' => 0,
+        'image' => 'default.jpg',
+        'product_category_id' => $category->id,
+    ]);
+
+    $this->get(route('products.show', $product->slug))
+        ->assertOk()
+        ->assertSee('Stok habis')
+        ->assertSee('disabled', false);
+});
+
+it('returns a not found response for an unknown product slug', function () {
+    $this->get('/products/unknown-product')->assertNotFound();
+});

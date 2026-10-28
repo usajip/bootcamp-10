@@ -14,13 +14,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/search', [HomeController::class, 'search']);
 
-// Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
+Route::get('products/{slug}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 
 Route::get('cart', [CartController::class, 'index']);
 
 Route::prefix('dashboard')->middleware('admin')->group(function () {
     Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('products', ProductController::class);
+    Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('product-categories', ProductCategoryController::class)
         ->except(['show', 'create', 'edit']);
 });

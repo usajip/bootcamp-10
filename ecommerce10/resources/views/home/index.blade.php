@@ -90,7 +90,7 @@
                             :description="$product->description"
                             :price="$product->price"
                             :category="$product->product_category->name"
-                            :link="url('/search')"
+                            :link="route('products.show', $product->slug)"
                         />
                     </div>
                 @endforeach

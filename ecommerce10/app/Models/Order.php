@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['order_number', 'total_amount', 'status', 'payment_status', 'shipping_address', 'user_id'])]
+// order status ['pending', 'processing', 'completed', 'cancelled']
+// payment status ['unpaid', 'paid', 'refunded']
 class Order extends Model
 {
     public function user(): BelongsTo

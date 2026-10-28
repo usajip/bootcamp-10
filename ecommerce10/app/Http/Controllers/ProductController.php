@@ -17,6 +17,14 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::with('product_category')
+            // sum the quantity of order items for each product with completed orders status
+            ->withSum([
+                'order_items' => function ($query) {
+                    $query->whereHas('order', function ($query) {
+                        $query->where('status', 'completed');
+                    });
+                }
+            ], 'quantity')
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%");
@@ -127,9 +135,20 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(string $slug)
     {
-        return view('product.description', compact('product'));
+        $product = Product::where('slug', $slug)
+                    ->with('product_category')
+                    ->firstOrFail();
+
+        $relatedProducts = Product::with('product_category')
+                    ->where('product_category_id', $product->product_category_id)
+                    ->whereKeyNot($product->id)
+                    ->latest()
+                    ->limit(4)
+                    ->get();
+
+        return view('product.description', compact('product', 'relatedProducts'));
     }
 
     /**

@@ -76,6 +76,9 @@
                                         Price
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Sold
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Category
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -90,7 +93,7 @@
                                             <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" class="h-16 w-16 object-cover">
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $product->name }}
+                                            <a href="{{ route('products.show', $product->slug) }}" class="text-indigo-600 hover:text-indigo-900">{{ $product->name }}</a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $product->description }}
@@ -102,10 +105,12 @@
                                             Rp{{ number_format($product->price, 0, ',', '.') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $product->order_items_sum_quantity ?? 0 }} pcs
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $product->product_category->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <a href="{{ route('products.show', $product) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
                                             <a href="{{ route('products.edit', $product) }}" class="text-yellow-600 hover:text-yellow-900 ml-4">Edit</a>
                                             <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
                                                 @csrf
