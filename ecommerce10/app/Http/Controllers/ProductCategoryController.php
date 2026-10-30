@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
@@ -31,7 +32,18 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|min:3|unique:product_categories,name',
+        ]);
+
+        $slug = Str::slug($request->name); // Generate slug from name, example: "Home Appliances" -> "home-appliances"
+
+        ProductCategory::create([
+            'name' => $request->name,
+            'slug' => $slug,
+        ]);
+
+        return back()->with('success', 'Product category created successfully.');
     }
 
     /**

@@ -3,18 +3,11 @@
     $currentImageUrl = $product ? asset('images/products/'.$product->image) : null;
 @endphp
 
-@if ($errors->any())
-    <div class="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700" role="alert">
-        <p class="font-medium">{{ __('Please fix the following errors:') }}</p>
-        <ul class="mt-2 list-inside list-disc space-y-1">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@include('admin.partials.success-error-info')
 
-<form method="POST" action="{{ $action }}" id="product-form" enctype="multipart/form-data" novalidate>
+<form method="POST" action="{{ $action }}" id="product-form" 
+    enctype="multipart/form-data" 
+    novalidate>
     @csrf
     @if ($product)
         @method('PUT')

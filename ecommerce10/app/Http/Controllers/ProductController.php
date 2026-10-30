@@ -7,6 +7,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -54,6 +55,7 @@ class ProductController extends Controller
                         break;
                 }
             })
+            ->orderBy('id', 'desc') // Default order by ID descending
             ->paginate(10);
         $categories = ProductCategory::all();
 
@@ -78,11 +80,13 @@ class ProductController extends Controller
         $validated = $request->validate($this->productRules(imageRequired: true));
 
         $imageDirectory = public_path('images/products');
-        File::ensureDirectoryExists($imageDirectory);
+        File::ensureDirectoryExists($imageDirectory); // Ensure the image directory exists before moving the uploaded file, if it doesn't already exist.
 
         $image = $request->file('image');
         $imageName = $image->hashName();
         $image->move($imageDirectory, $imageName);
+
+        // Storage::disk('public')->putFileAs('images/products', $image, $imageName);
 
         Product::create([
             ...$validated,

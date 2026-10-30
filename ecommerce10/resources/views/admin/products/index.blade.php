@@ -11,11 +11,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                @if (session('success'))
-                    <div class="mx-6 mt-6 rounded-md bg-green-50 p-4 text-sm text-green-700" role="status">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                @include('admin.partials.success-error-info')
 
                 {{-- Filter and Search section --}}
                 <form action="{{ route('products.index') }}" method="GET" class="flex flex-wrap items-end mb-4 gap-2 p-6">
@@ -95,7 +91,10 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <a href="{{ route('products.show', $product->slug) }}" class="text-indigo-600 hover:text-indigo-900">{{ $product->name }}</a>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ Str::limit($product->description, 10) }}
+                                        </td> --}}
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 max-w-[200px] text-ellipsis overflow-hidden">
                                             {{ $product->description }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

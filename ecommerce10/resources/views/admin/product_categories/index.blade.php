@@ -15,6 +15,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    @include('admin.partials.success-error-info')
                     <div class="overflow-x-auto w-full">
                         <table data-datatable class="min-w-full divide-y divide-gray-200">
                             <thead>
@@ -49,7 +50,7 @@
                                             {{ $category->products_count }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $category->products_sum_stock }}
+                                            {{ $category->products_sum_stock ?? 0 }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             <a href="#!" x-data=""
@@ -64,7 +65,7 @@
                                     </tr>
                                     @push('scripts')
                                     <x-modal name="edit-category-modal{{ $category->id }}" :show="$errors->productCategoryUpdate->isNotEmpty()" max-width="lg" focusable>
-                                        <form method="post" action="{{ route('product-categories.update', $category->id) }}" id="edit-category-form-{{ $category->id }}" class="p-6">
+                                        <form method="post" action="{{ route('product-categories.update', $category) }}" id="edit-category-form-{{ $category->id }}" class="p-6">
                                             @csrf
                                             @method('PUT')
                                             <h2 class="text-lg font-medium text-gray-900">
