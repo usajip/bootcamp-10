@@ -85,7 +85,7 @@
                 @foreach ($products as $product)
                     <div class="col">
                         <x-product-card
-                            :image="asset('images/images.jpeg')"
+                            :image="asset('images/products/' . $product->image)"
                             :name="$product->name"
                             :description="$product->description"
                             :price="$product->price"

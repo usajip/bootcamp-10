@@ -21,6 +21,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Name
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -41,6 +44,9 @@
                                 @foreach($productCategories as $category)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $category->id }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                            <a href="{{ route('products.index', ['product_category_id'=>$category->id]) }}">{{ $category->name }}</a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -56,16 +62,14 @@
                                             <a href="#!" x-data=""
                                             x-on:click.prevent="$dispatch('open-modal', 'edit-category-modal{{ $category->id }}')" 
                                             class="text-yellow-600 hover:text-yellow-900 ml-4">Edit</a>
-                                            <form action="{{ route('product-categories.destroy', $category->id) }}" method="POST" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Delete</button>
-                                            </form>
+                                            <a href="#!" x-data=""
+                                            x-on:click.prevent="$dispatch('open-modal', 'delete-category-modal{{ $category->id }}')" 
+                                            class="text-red-600 hover:text-red-900 ml-4">Delete</a>
                                         </td>
                                     </tr>
                                     @push('scripts')
                                     <x-modal name="edit-category-modal{{ $category->id }}" :show="$errors->productCategoryUpdate->isNotEmpty()" max-width="lg" focusable>
-                                        <form method="post" action="{{ route('product-categories.update', $category) }}" id="edit-category-form-{{ $category->id }}" class="p-6">
+                                        <form method="POST" action="{{ route('product-categories.update', $category) }}" id="edit-category-form-{{ $category->id }}" class="p-6">
                                             @csrf
                                             @method('PUT')
                                             <h2 class="text-lg font-medium text-gray-900">
@@ -77,6 +81,20 @@
                                             </div>
                                             <div class="mt-4">
                                                 <button type="submit" onclick="validateEditCategoryForm({{ $category->id }})" class="bg-yellow-500 text-white px-4 py-2 rounded">Update Category</button>
+                                            </div>
+                                        </form>
+                                    </x-modal>
+                                    <x-modal name="delete-category-modal{{ $category->id }}" max-width="lg" focusable>
+                                        <form action="{{ route('product-categories.destroy', $category->id) }}" method="POST" class="p-6">
+                                            @csrf
+                                            @method('DELETE')
+                                            <h2 class="text-lg font-medium text-gray-900">
+                                                {{ 'Delete Category: ' . $category->name }}
+                                            </h2>
+                                            <p class="mt-4">Are you sure you want to delete this category?</p>
+                                            <div class="mt-4 flex justify-between gap-4">
+                                                <button type="button" x-on:click="$dispatch('close-modal', 'delete-category-modal{{ $category->id }}')" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
                                             </div>
                                         </form>
                                     </x-modal>

@@ -33,7 +33,7 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|min:3|unique:product_categories,name',
+            'name' => 'required|string|max:100|min:3|unique:product_categories,name',
         ]);
 
         $slug = Str::slug($request->name); // Generate slug from name, example: "Home Appliances" -> "home-appliances"
@@ -67,7 +67,18 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, ProductCategory $productCategory)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100|min:3|unique:product_categories,name,' . $productCategory->id,
+        ]);
+
+        $slug = Str::slug($request->name);
+
+        $productCategory->update([
+            'name' => $request->name,
+            'slug' => $slug,
+        ]);
+
+        return back()->with('success', 'Product category with id ' . $productCategory->id . ' updated successfully.');
     }
 
     /**
@@ -75,6 +86,13 @@ class ProductCategoryController extends Controller
      */
     public function destroy(ProductCategory $productCategory)
     {
-        //
+        $product_check = $productCategory->products()->count();
+
+        if ($product_check > 0) {
+            return back()->with('error', 'Cannot delete category with associated products.');
+        }
+
+        $productCategory->delete();
+        return back()->with('success', 'Product category with id ' . $productCategory->id . ' deleted successfully.');
     }
 }

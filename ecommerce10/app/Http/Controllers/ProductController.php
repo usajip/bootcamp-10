@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\RedirectResponse;
@@ -199,7 +200,7 @@ class ProductController extends Controller
 
         return redirect()
             ->route('products.index')
-            ->with('success', 'Product updated successfully.');
+            ->with('success', 'Product with id: ' . $product->id . ' updated successfully.');
     }
 
     /**
@@ -207,6 +208,26 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $order_items_count = $product->order_items()->count();
+        if ($order_items_count > 0) {
+            return redirect()
+                ->route('products.index')
+                ->with('error', 'Cannot delete product with existing order items.');
+        }
+
+        $cart_items_count = $product->carts()->count();
+        if ($cart_items_count > 0) {
+            Cart::where('product_id', $product->id)->delete();
+        }
+
+        $oldImage = $product->image;
+        $product->delete();
+        if ($oldImage && $oldImage !== 'default.jpg') {
+            File::delete(public_path('images/products/'.$oldImage));
+        }
+
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Product with id: ' . $product->id . ' deleted successfully.');
     }
 }

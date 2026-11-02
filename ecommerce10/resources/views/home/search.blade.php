@@ -19,12 +19,12 @@
                 @forelse ($products as $item)
                     <div class="col">
                         <x-product-card
-                            :image="asset('images/images.jpeg')"
+                            :image="asset('images/products/' . $item->image)"
                             :name="$item->name"
                             :description="$item->description"
                             :price="$item->price"
                             :category="$item->product_category->name"
-                            :link="url('/products')"
+                            :link="route('products.show', $item->slug)"
                         />
                     </div>
                 @empty
