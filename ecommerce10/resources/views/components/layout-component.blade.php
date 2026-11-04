@@ -17,7 +17,9 @@
 </head>
 <body>
     @include('template.navbar')
+    <main style="min-height: 90vh;">
     {{ $slot }}
+    </main>
     @include('template.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/script.js') }}"></script>

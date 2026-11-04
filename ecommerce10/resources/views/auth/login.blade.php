@@ -4,6 +4,9 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
+        @if(request()->has('redirect_to'))
+            <input type="hidden" name="redirect_to" value="{{ request()->input('redirect_to') }}">
+        @endif
 
         <!-- Email Address -->
         <div>

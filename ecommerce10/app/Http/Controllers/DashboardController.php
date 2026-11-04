@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
@@ -46,12 +47,12 @@ class DashboardController extends Controller
             ],
             [
                 'name'=>'Product Clicks',
-                'value'=>150,
+                'value'=>Product::sum('clicks'),
                 'icon'=>'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960"><path d="M120-560h40q17 0 28.5 11.5T200-520t-11.5 28.5T160-480h-40q-17 0-28.5-11.5T80-520t11.5-28.5T120-560m68 216 28-28q12-12 28-11.5t28 11.5q12 12 12.5 28.5T273-315l-28 28q-12 12-28.5 11.5T188-288q-11-12-11.5-28t11.5-28m28-324-28-28q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T245-753l28 28q12 12 11.5 28.5T272-668q-12 11-28 11.5T216-668m476 480L530-350l-30 90q-2 7-7.5 10.5T481-246t-11.5-4-7.5-11l-86-286q-2-8 .5-16t7.5-13 13-7.5 16-.5l288 86q7 2 10.5 7.5T715-479t-3 11.5-10 7.5l-90 32 160 160q12 12 12 28t-12 28l-24 24q-12 12-28 12t-28-12M400-760v-40q0-17 11.5-28.5T440-840t28.5 11.5T480-800v40q0 17-11.5 28.5T440-720t-28.5-11.5T400-760m207 35 29-29q11-11 27.5-11.5T692-754q11 11 11.5 27.5T693-698l-29 30q-11 12-27.5 11.5T608-668q-12-12-12.5-28.5T607-725"/></svg>'
             ],
             [
                 'name'=>'Revenue',
-                'value'=>'Rp' . number_format(5000, 0, ',', '.'),
+                'value'=>'Rp' . number_format(Order::where('status', 'completed')->sum('total_amount'), 0, ',', '.'),
                 'icon'=>'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#1f1f1f" viewBox="0 -960 960 960"><path d="M560-440q-50 0-85-35t-35-85 35-85 85-35 85 35 35 85-35 85-85 35M280-320q-33 0-56.5-23.5T200-400v-320q0-33 23.5-56.5T280-800h560q33 0 56.5 23.5T920-720v320q0 33-23.5 56.5T840-320zm80-80h400q0-33 23.5-56.5T840-480v-160q-33 0-56.5-23.5T760-720H360q0 33-23.5 56.5T280-640v160q33 0 56.5 23.5T360-400m400 240H120q-33 0-56.5-23.5T40-240v-400q0-17 11.5-28.5T80-680t28.5 11.5T120-640v400h640q17 0 28.5 11.5T800-200t-11.5 28.5T760-160M280-400v-320z"/></svg>'
             ]
         ];
@@ -60,35 +61,42 @@ class DashboardController extends Controller
     private function chartOrderDiagramData()
     {
         // this function will return the data (total order and revenue) for the order (daily: 7 days) diagram chart with chart.js
+        $labels = [
+            now()->subDays(6)->format('d M'),
+            now()->subDays(5)->format('d M'),
+            now()->subDays(4)->format('d M'),
+            now()->subDays(3)->format('d M'),
+            now()->subDays(2)->format('d M'),
+            now()->subDays(1)->format('d M'),
+            now()->format('d M'),
+        ];
+        $orders = Order::where('created_at', '>=', now()->subDays(6))->get();
+        $order_revenue = Order::where('created_at', '>=', now()->subDays(6))
+        ->where('status', 'completed')->sum('total_amount');
+        
+        $ordersByDay = $orders->groupBy(function($order) {
+            return $order->created_at->format('d M');
+        });
+
+        $order_revenueByDay = $orders->where('status', 'completed')->groupBy(function($order) {
+            return $order->created_at->format('d M');
+        });
+        
+        $ordersData = [];
+        foreach ($labels as $label) {
+            $ordersData[] = $ordersByDay->has($label) ? $ordersByDay[$label]->count() : 0;
+        }
+
+        $revenueData = [];
+        foreach ($labels as $label) {
+            $revenueData[] = $order_revenueByDay->has($label) ? $order_revenueByDay[$label]->sum('total_amount') : 0;
+        }
+
         return [
-            'labels' => [
-                now()->subDays(6)->format('d M'),
-                now()->subDays(5)->format('d M'),
-                now()->subDays(4)->format('d M'),
-                now()->subDays(3)->format('d M'),
-                now()->subDays(2)->format('d M'),
-                now()->subDays(1)->format('d M'),
-                now()->format('d M'),
-            ],
+            'labels' => $labels,
             'data' => [
-                'orders' => [
-                    rand(10, 100),
-                    rand(10, 100),
-                    rand(10, 100),
-                    rand(10, 100),
-                    rand(10, 100),
-                    rand(10, 100),
-                    rand(10, 100),
-                ],
-                'revenue' => [
-                    rand(1000, 5000),
-                    rand(1000, 5000),
-                    rand(1000, 5000),
-                    rand(1000, 5000),
-                    rand(1000, 5000),
-                    rand(1000, 5000),
-                    rand(1000, 5000),
-                ]
+                'orders' => $ordersData,
+                'revenue' => $revenueData
             ]
         ];
     }
@@ -96,65 +104,40 @@ class DashboardController extends Controller
     private function orderStatusDiagramData()
     {
         // this function will return the data for the order status diagram chart with chart.js
+        $labels = ['Pending', 'Processing', 'Completed', 'Cancelled'];
+        $order = Order::all();
+        $orderStatusCounts = [
+            'Pending' => $order->where('status', 'pending')->count(),
+            'Processing' => $order->where('status', 'processing')->count(),
+            'Completed' => $order->where('status', 'completed')->count(),
+            'Cancelled' => $order->where('status', 'cancelled')->count(),
+        ];
+
         return [
-            'labels' => ['Pending', 'Processing', 'Completed', 'Cancelled'],
+            'labels' => $labels,
             'data' => [
-                rand(10, 100),
-                rand(10, 100),
-                rand(10, 100),
-                rand(10, 100),
+                $orderStatusCounts['Pending'],
+                $orderStatusCounts['Processing'],
+                $orderStatusCounts['Completed'],
+                $orderStatusCounts['Cancelled'],
             ]
         ];
     }
 
     private function latestOrdersData()
     {
-        return [
-            [
-                'id' => 1,
-                'order_number'=>'INV-'.rand(1000, 9999),
-                'customer' => 'John Doe',
-                'status' => 'Pending',
-                'payment_status' => 'Unpaid',
-                'total_amount' => rand(100000, 5000000),
-                'created_at' => now()->subDays(rand(0, 6))->format('d M Y | H:i'),
-            ],
-            [
-                'id' => 2,
-                'order_number'=>'INV-'.rand(1000, 9999),
-                'customer' => 'Jane Smith',
-                'status' => 'Processing',
-                'payment_status' => 'Paid',
-                'total_amount' => rand(100000, 5000000),
-                'created_at' => now()->subDays(rand(0, 6))->format('d M Y | H:i'),
-            ],
-            [
-                'id' => 3,
-                'order_number'=>'INV-'.rand(1000, 9999),
-                'customer' => 'Alice Johnson',
-                'status' => 'Completed',
-                'payment_status' => 'Paid',
-                'total_amount' => rand(100000, 5000000),
-                'created_at' => now()->subDays(rand(0, 6))->format('d M Y | H:i'),
-            ],
-            [
-                'id' => 4,
-                'order_number'=>'INV-'.rand(1000, 9999),
-                'customer' => 'Bob Williams',
-                'status' => 'Cancelled',
-                'payment_status' => 'Unpaid',
-                'total_amount' => rand(100000, 5000000),
-                'created_at' => now()->subDays(rand(0, 6))->format('d M Y | H:i'),
-            ],
-            [
-                'id' => 5,
-                'order_number'=>'INV-'.rand(1000, 9999),
-                'customer' => 'Charlie Brown',
-                'status' => 'Pending',
-                'payment_status' => 'Unpaid',
-                'total_amount' => rand(100000, 5000000),
-                'created_at' => now()->subDays(rand(0, 6))->format('d M Y | H:i'),
-            ]
-        ];
+        $latestOrders = Order::orderBy('created_at', 'desc')->take(5)->get();
+        
+        return $latestOrders->map(function($order) {
+            return [
+                'id' => $order->id,
+                'order_number' => $order->order_number,
+                'customer' => $order->user->name,
+                'status' => $order->status,
+                'payment_status' => $order->payment_status,
+                'total_amount' => $order->total_amount,
+                'created_at' => $order->created_at->format('d M Y | H:i'),
+            ];
+        });
     }
 }

@@ -14,9 +14,9 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.login');
+        return view('auth.login', ['redirect_to' => $request->input('redirect_to')]);
     }
 
     /**
@@ -27,6 +27,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        if($request->has('redirect_to')) {
+            return redirect($request->input('redirect_to'));
+        }
 
         return redirect()->intended(route('home', absolute: false));
     }

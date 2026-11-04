@@ -44,6 +44,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-semibold mb-4">Latest Orders</h3>
+                    @if($latestOrdersData->isEmpty())
+                        <p>No recent orders found.</p>
+                    @else
                     <div class="relative overflow-x-auto">
                         <table class="min-w-full border border-gray-200">
                             <thead>
@@ -70,7 +73,9 @@
                             </tbody>
                         </table>
                     </div>
+                    @endif
                 </div>
+            </div>
         </div>
     </div>
 

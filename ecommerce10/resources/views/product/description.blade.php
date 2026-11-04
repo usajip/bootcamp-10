@@ -19,7 +19,9 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
                 </ol>
             </nav>
-
+            <div class="col-12">
+                @include('admin.partials.success-error-info', ['type' => 'bootstrap'])
+            </div>
             <div class="row g-4 g-lg-5 align-items-start">
                 <div class="col-lg-6">
                     <div class="product-detail-media">
@@ -44,11 +46,11 @@
 
                         <p class="product-detail-description">{{ $product->description }}</p>
 
-                        <form class="product-detail-form" action="{{ url('/cart') }}" method="GET">
+                        <form class="product-detail-form" action="{{ route('cart.store', ['product' => $product->id]) }}" method="POST"> @csrf
                             <div class="product-detail-qty">
                                 <label for="quantity" class="form-label">Jumlah</label>
                                 <input type="number" id="quantity" name="quantity" class="form-control"
-                                       value="1" min="1" max="{{ max($product->stock, 1) }}" @disabled(! $inStock)>
+                                       value="{{ old('quantity', 1) }}" min="1" max="{{ max($product->stock, 1) }}" @disabled(! $inStock)>
                             </div>
 
                             <button type="submit" class="btn product-card-button btn-lg w-100" @disabled(! $inStock)>
@@ -56,7 +58,7 @@
                             </button>
                         </form>
 
-                        <a href="{{ url('/cart') }}" class="btn btn-outline-primary btn-lg w-100">Lihat Keranjang</a>
+                        <a href="{{ route('cart.index') }}" class="btn btn-outline-primary btn-lg w-100">Lihat Keranjang</a>
 
                         <div class="product-detail-perks mt-4">
                             <div class="product-detail-perk">

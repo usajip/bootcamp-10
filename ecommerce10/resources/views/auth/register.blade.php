@@ -1,7 +1,9 @@
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
-
+        @if(request()->has('redirect_to'))
+            <input type="hidden" name="redirect_to" value="{{ request()->input('redirect_to') }}">
+        @endif
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

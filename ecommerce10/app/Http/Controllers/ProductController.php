@@ -152,6 +152,12 @@ class ProductController extends Controller
                     ->latest()
                     ->limit(4)
                     ->get();
+        $session = session();
+        if(!$session->has('product_clicks_'.$product->id)) {
+            $session->put('product_clicks_'.$product->id, 1);
+            $product->clicks++;
+            $product->save();
+        }
 
         return view('product.description', compact('product', 'relatedProducts'));
     }

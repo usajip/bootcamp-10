@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.register', ['redirect_to' => request()->input('redirect_to')]);
     }
 
     /**
@@ -45,6 +45,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if($request->has('redirect_to')) {
+            return redirect($request->input('redirect_to'));
+        }
 
         return redirect(route('home', absolute: false));
     }
