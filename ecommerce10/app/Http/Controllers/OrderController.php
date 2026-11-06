@@ -21,10 +21,12 @@ class OrderController extends Controller
         if(Auth::user()->role == 'admin') {
             $orders = Order::with('user')
                         ->withCount('order_items')
+                        ->orderBy('created_at', 'desc')
                         ->paginate(10);
         } else {
             $orders = Order::where('user_id', Auth::id())
                         ->withCount('order_items')
+                        ->orderBy('created_at', 'desc')
                         ->paginate(10);
         }
         return view('orders.index', compact('orders'));
