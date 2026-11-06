@@ -14,6 +14,11 @@
         <li class="nav-item">
           <a class="nav-link {{ request()->is('cart*') ? 'active' : '' }}" href="{{ url('/cart') }}">Keranjang</a>
         </li>
+        @auth
+        <li class="nav-item">
+          <a class="nav-link {{ request()->is('orders*') ? 'active' : '' }}" href="{{ route('orders.index') }}">Pesanan</a>
+        </li>
+        @endauth
         @admin
         <li class="nav-item">
           <a class="nav-link {{ request()->is('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>

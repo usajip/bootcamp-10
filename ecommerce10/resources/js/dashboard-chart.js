@@ -47,7 +47,13 @@ if (canvas && dataElement) {
                 },
                 tooltip: {
                     callbacks: {
-                        label: (context) => `${context.dataset.label}: ${context.parsed.y}`,
+                        label: (context) => {
+                            const value = context.parsed.y;
+                            if (context.dataset.label === 'Revenue') {
+                                return `${context.dataset.label}: Rp ${value.toLocaleString('id-ID')}`;
+                            }
+                            return `${context.dataset.label}: ${value}`;
+                        },
                     },
                 },
             },

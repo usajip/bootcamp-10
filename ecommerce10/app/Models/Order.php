@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 // payment status ['unpaid', 'paid', 'refunded']
 class Order extends Model
 {
+    public const STATUSES = ['pending', 'processing', 'completed', 'cancelled'];
+
+    public const PAYMENT_STATUSES = ['unpaid', 'paid', 'refunded'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

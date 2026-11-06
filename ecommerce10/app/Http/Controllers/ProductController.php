@@ -152,6 +152,7 @@ class ProductController extends Controller
                     ->latest()
                     ->limit(4)
                     ->get();
+
         $session = session();
         if(!$session->has('product_clicks_'.$product->id)) {
             $session->put('product_clicks_'.$product->id, 1);
@@ -159,7 +160,16 @@ class ProductController extends Controller
             $product->save();
         }
 
-        return view('product.description', compact('product', 'relatedProducts'));
+        $waLink = $this->waLink($product);
+
+        return view('product.description', compact('product', 'relatedProducts', 'waLink'));
+    }
+
+    private function waLink(Product $product): string
+    {
+        $text = urlencode('Halo, saya tertarik dengan produk: ' . $product->name);
+        $phone = '62726389372762';
+        return 'https://api.whatsapp.com/send/?phone=' . $phone . '&text=' . $text;
     }
 
     /**

@@ -28,6 +28,7 @@ Route::delete('cart/{cart}', [CartController::class, 'destroy'])->name('cart.des
 
 Route::prefix('dashboard')->middleware('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::patch('orders/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('product-categories', ProductCategoryController::class)
         ->except(['show', 'create', 'edit']);
@@ -35,6 +36,7 @@ Route::prefix('dashboard')->middleware('admin')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -597,6 +597,19 @@ footer p {
     margin-bottom: 0.5rem;
 }
 
+.cart-summary-admin-form {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    border: 1px dashed #d1d5db;
+    border-radius: 12px;
+    background: #f9fafb;
+}
+
+.cart-summary-select {
+    max-width: 60%;
+    text-transform: capitalize;
+}
+
 .cart-summary-total {
     color: #1f2937;
     font-size: 1.1rem;

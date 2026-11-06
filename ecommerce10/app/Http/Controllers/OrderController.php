@@ -11,10 +11,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        if(Auth::user()->role == 'admin') {
+            $orders = Order::with('user')
+                        ->withCount('order_items')
+                        ->paginate(10);
+        } else {
+            $orders = Order::where('user_id', Auth::id())
+                        ->withCount('order_items')
+                        ->paginate(10);
+        }
+        return view('orders.index', compact('orders'));
+    }
     /**
      * Checkout seluruh isi keranjang user yang sedang login menjadi sebuah order.
      */
@@ -98,18 +112,22 @@ class OrderController extends Controller
     }
 
     /**
-     * Menampilkan detail order milik user yang sedang login.
+     * Menampilkan detail order. Admin bisa melihat semua order, user hanya order miliknya.
      */
     public function show(string $order_number)
     {
         $order = Order::where('order_number', $order_number)->firstOrFail();
 
-        abort_unless($order->user_id === Auth::id(), 403);
+        $isAdmin = Auth::user()->role === 'admin';
+
+        abort_unless($isAdmin || $order->user_id === Auth::id(), 404);
 
         $order->load('order_items.product');
 
         return view('orders.show', [
             'order' => $order,
+            'statuses' => Order::STATUSES,
+            'paymentStatuses' => Order::PAYMENT_STATUSES,
             'whatsappUrl' => $this->whatsappConfirmationUrl($order),
         ]);
     }
@@ -150,11 +168,25 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update status pesanan dan status pembayaran (khusus admin).
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Order $order): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'status' => ['required', 'string', Rule::in(Order::STATUSES)],
+            'payment_status' => ['required', 'string', Rule::in(Order::PAYMENT_STATUSES)],
+        ], [
+            'status.required' => 'Status pesanan wajib dipilih.',
+            'status.in' => 'Status pesanan tidak valid.',
+            'payment_status.required' => 'Status pembayaran wajib dipilih.',
+            'payment_status.in' => 'Status pembayaran tidak valid.',
+        ]);
+
+        $order->update($validated);
+
+        return redirect()
+            ->route('orders.show', $order->order_number)
+            ->with('success', 'Pesanan berhasil diperbarui.');
     }
 
     /**

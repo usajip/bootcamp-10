@@ -72,14 +72,54 @@
                     <div class="cart-summary-card">
                         <h3 class="cart-summary-title">Ringkasan Pesanan</h3>
 
-                        <div class="cart-summary-row">
-                            <span>Status</span>
-                            <span>{{ ucfirst($order->status) }}</span>
-                        </div>
-                        <div class="cart-summary-row">
-                            <span>Pembayaran</span>
-                            <span>{{ $order->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar' }}</span>
-                        </div>
+                        @admin
+                            @php
+                                $paymentLabels = [
+                                    'paid' => 'Lunas',
+                                    'unpaid' => 'Belum dibayar',
+                                    'refunded' => 'Dikembalikan',
+                                ];
+                            @endphp
+
+                            <form action="{{ route('orders.update', $order) }}" method="POST" class="cart-summary-admin-form">
+                                @csrf
+                                @method('PATCH')
+
+                                <div class="cart-summary-row">
+                                    <span><label for="order-status">Status</label></span>
+                                    <select name="status" id="order-status" class="form-select form-select-sm cart-summary-select">
+                                        @foreach ($statuses as $status)
+                                            <option value="{{ $status }}" @selected(old('status', $order->status) === $status)>
+                                                {{ ucfirst($status) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="cart-summary-row">
+                                    <span><label for="order-payment-status">Pembayaran</label></span>
+                                    <select name="payment_status" id="order-payment-status" class="form-select form-select-sm cart-summary-select">
+                                        @foreach ($paymentStatuses as $paymentStatus)
+                                            <option value="{{ $paymentStatus }}" @selected(old('payment_status', $order->payment_status) === $paymentStatus)>
+                                                {{ $paymentLabels[$paymentStatus] ?? ucfirst($paymentStatus) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn product-card-button w-100 mt-2">
+                                    Simpan Perubahan
+                                </button>
+                            </form>
+                        @else
+                            <div class="cart-summary-row">
+                                <span>Status</span>
+                                <span>{{ ucfirst($order->status) }}</span>
+                            </div>
+                            <div class="cart-summary-row">
+                                <span>Pembayaran</span>
+                                <span>{{ $order->payment_status === 'paid' ? 'Lunas' : 'Belum dibayar' }}</span>
+                            </div>
+                        @endadmin
 
                         <hr>
 

@@ -13,6 +13,7 @@ class HomeController extends Controller
         $products = Product::where('price', '>', 100000)
                         ->orderBy('price', 'desc')
                         ->with('product_category')
+                        ->where('stock', '>', 0)
                         ->paginate(12);
         
         $features = [
@@ -45,7 +46,10 @@ class HomeController extends Controller
             });
         }
 
-        $products = $query->with('product_category')->paginate(12);
+        $products = $query
+                        ->where('stock', '>', 0)
+                        ->with('product_category')
+                        ->paginate(12);
 
         $categories = ProductCategory::all();
 

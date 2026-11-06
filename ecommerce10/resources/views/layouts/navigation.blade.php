@@ -23,6 +23,9 @@
                             {{ __('Product Categories') }}
                         </x-nav-link>
                     @endadmin
+                    <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.*')">
+                        {{ __('Orders') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -86,6 +89,9 @@
                     {{ __('Product Categories') }}
                 </x-responsive-nav-link>
             @endadmin
+            <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                    {{ __('Orders') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

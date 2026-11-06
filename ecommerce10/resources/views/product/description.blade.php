@@ -58,7 +58,11 @@
                             </button>
                         </form>
 
-                        <a href="{{ route('cart.index') }}" class="btn btn-outline-primary btn-lg w-100">Lihat Keranjang</a>
+                        {{-- <a href="{{ route('cart.index') }}" class="btn btn-outline-primary btn-lg w-100">Lihat Keranjang</a> --}}
+                        {{-- Button to WhatsApp --}}
+                        <a href="{{ $waLink }}" class="btn btn-success btn-lg w-100 mt-2" style="border-radius: 30px;" target="_blank">
+                            Tanya Admin
+                        </a>
 
                         <div class="product-detail-perks mt-4">
                             <div class="product-detail-perk">
