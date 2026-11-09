@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// Home Main Route 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/search', [App\Http\Controllers\HomeController::class, 'search']);
